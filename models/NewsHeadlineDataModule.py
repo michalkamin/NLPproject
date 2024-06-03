@@ -5,6 +5,7 @@ from transformers import T5Tokenizer
 from typing import Optional
 from models.NewsHeadlineDataset import NewsHeadlineDataset
 
+
 class NewsHeadlineDataModule(pl.LightningDataModule):
     """
     A PyTorch Lightning DataModule for handling the data loading and preprocessing for the news headline dataset.

@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from typing import List
 
+
 def get_topn_words(article: str, n: int = 2) -> List[str]:
     """
     Extracts the top N words from an article based on their TF-IDF scores.
@@ -20,7 +21,7 @@ def get_topn_words(article: str, n: int = 2) -> List[str]:
     feature_names = vectorizer.get_feature_names_out()
 
     feature_names = np.array(vectorizer.get_feature_names_out())
-    
+
     tfidf_scores = X.toarray().flatten()
 
     sorted_indices = np.argsort(tfidf_scores)[::-1]

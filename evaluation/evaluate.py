@@ -1,27 +1,39 @@
 import pandas as pd
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
-from rouge_score import rouge_scorer
-from typing import List, Dict
 from nltk.tokenize import word_tokenize
-from transformers import T5ForConditionalGeneration, BartForConditionalGeneration, T5Tokenizer, BartTokenizer
+from transformers import (
+    T5ForConditionalGeneration,
+    BartForConditionalGeneration,
+    T5Tokenizer,
+    BartTokenizer
+)
 from evaluation.generate_headline import generate_headline
 from evaluate import load
 
 rouge = load("rouge")
 
-def calculate_scores_df_tuned(df: pd.DataFrame, tokenizer_t5: T5Tokenizer, trained_t5: T5ForConditionalGeneration, tokenizer_bart: BartTokenizer, trained_bart: BartForConditionalGeneration, include_summary: bool = False, verbose: bool = True) -> pd.DataFrame:
+
+def calculate_scores_df_tuned(
+        df: pd.DataFrame,
+        tokenizer_t5: T5Tokenizer,
+        trained_t5: T5ForConditionalGeneration,
+        tokenizer_bart: BartTokenizer,
+        trained_bart: BartForConditionalGeneration,
+        include_summary: bool = False,
+        verbose: bool = True
+) -> pd.DataFrame:
     """
     Calculates BLEU and ROUGE scores for generated headlines in the DataFrame.
-    
+
     Args:
-        df (pd.DataFrame): DataFrame containing articles and original headlines.
+    df (pd.DataFrame): DataFrame containing articles and original headlines.
         tokenizer_t5: T5 tokenizer.
         trained_t5: T5 model.
         tokenizer_bart: BART tokenizer.
         trained_bart: BART model.
         include_summary (bool): Whether to include summaries for reference.
         verbose (bool): Whether to print progress.
-        
+
     Returns:
         pd.DataFrame: DataFrame with calculated scores.
     """
@@ -58,7 +70,7 @@ def calculate_scores_df_tuned(df: pd.DataFrame, tokenizer_t5: T5Tokenizer, train
 
         scores_finetuned_bart = rouge.compute(predictions=[finetuned_bart_headline], references=[original_headline])
         rouge_finetuned_bart = scores_finetuned_bart['rouge1']
-        
+
         results.append({
             'index': idx,
             'original_headline': original_headline,
@@ -73,6 +85,7 @@ def calculate_scores_df_tuned(df: pd.DataFrame, tokenizer_t5: T5Tokenizer, train
     results_df = pd.DataFrame(results)
 
     return results_df
+
 
 def calculate_scores_df(
     df: pd.DataFrame,
@@ -131,19 +144,15 @@ def calculate_scores_df(
         bleu_finetuned_bart = sentence_bleu(references, finetuned_bart_headline_tokens, smoothing_function=chencherry.method1)
         bleu_pretrained_bart = sentence_bleu(references, pretrained_bart_headline_tokens, smoothing_function=chencherry.method1)
 
-        # Compute Rouge scores for finetuned T5
         scores_finetuned_t5 = rouge.compute(predictions=[finetuned_t5_headline], references=[original_headline])
         rouge_finetuned_t5 = scores_finetuned_t5['rouge1']
 
-        # Compute Rouge scores for pretrained T5
         scores_pretrained_t5 = rouge.compute(predictions=[pretrained_t5_headline], references=[original_headline])
         rouge_pretrained_t5 = scores_pretrained_t5['rouge1']
 
-        # Compute Rouge scores for finetuned BART
         scores_finetuned_bart = rouge.compute(predictions=[finetuned_bart_headline], references=[original_headline])
         rouge_finetuned_bart = scores_finetuned_bart['rouge1']
 
-        # Compute Rouge scores for pretrained BART
         scores_pretrained_bart = rouge.compute(predictions=[pretrained_bart_headline], references=[original_headline])
         rouge_pretrained_bart = scores_pretrained_bart['rouge1']
 

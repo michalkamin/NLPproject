@@ -17,7 +17,8 @@ def generate_headline(
     force_words: Optional[List[str]] = None
 ) -> str:
     """
-    Generates a headline for the given text using a specified model and tokenizer. Optionally enforces the inclusion of specified words in the generated headline.
+    Generates a headline for the given text using a specified model and tokenizer.
+    Optionally enforces the inclusion of specified words in the generated headline.
 
     Args:
         text (str): The input text for which the headline is to be generated.
@@ -27,14 +28,16 @@ def generate_headline(
         min_length (int, optional): Minimum length of the generated headline. Defaults to 7.
         num_beams (int, optional): Number of beams for beam search. Defaults to 5.
         length_penalty (float, optional): Length penalty for beam search. Defaults to 1.0.
-        max_new_tokens (int, optional): Maximum number of new tokens to generate. Defaults to 20.
-        force_words (Optional[List[str]], optional): A list of words that must be included in the generated headline. Defaults to None.
+        max_new_tokens (int, optional): Maximum number of new tokens to generate.
+        Defaults to 20.
+        force_words (Optional[List[str]], optional): A list of words that must
+        be included in the generated headline.
+        Defaults to None.
 
     Returns:
         str: The generated headline as a string.
     """
-    
-    # Tokenize and encode the input text
+
     text_encoding = tokenizer(
         prompt + text,
         max_length=512,
@@ -45,18 +48,18 @@ def generate_headline(
         return_tensors="pt"
     )
 
-    # Move tensors to the appropriate device
     input_ids = text_encoding["input_ids"].to(device)
     attention_mask = text_encoding["attention_mask"].to(device)
 
-    # Prepare force words if provided
     if force_words:
         force_words = [str(word) for word in force_words]
-        force_words_ids = [tokenizer(word, add_special_tokens=False)['input_ids'] for word in force_words]
+        force_words_ids = [
+            tokenizer(word, add_special_tokens=False)['input_ids']
+            for word in force_words
+            ]
     else:
         force_words_ids = None
 
-    # Generate headline using the model
     generated_ids = input_model.generate(
         input_ids=input_ids,
         attention_mask=attention_mask,
@@ -67,11 +70,9 @@ def generate_headline(
         force_words_ids=force_words_ids
     )
 
-    # Decode the generated tokens to a string
     preds = [
         tokenizer.decode(gen_id, skip_special_tokens=True, clean_up_tokenization_spaces=True)
         for gen_id in generated_ids
-    ]
+            ]
 
     return "".join(preds)
-

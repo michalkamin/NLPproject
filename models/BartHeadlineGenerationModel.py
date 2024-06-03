@@ -3,7 +3,6 @@ import pytorch_lightning as pl
 from transformers import BartForConditionalGeneration
 
 
-
 class BartHeadlineGenerationModel(pl.LightningModule):
 
     def __init__(self):

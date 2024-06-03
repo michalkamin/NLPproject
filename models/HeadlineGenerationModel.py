@@ -5,6 +5,7 @@ from transformers import T5ForConditionalGeneration, BartForConditionalGeneratio
 from transformers.modeling_outputs import Seq2SeqLMOutput
 from typing import Dict, Tuple
 
+
 class HeadlineGenerationModel(pl.LightningModule):
     """
     A PyTorch Lightning Module for headline generation using T5 or BART models.
@@ -21,7 +22,6 @@ class HeadlineGenerationModel(pl.LightningModule):
             self.model = BartForConditionalGeneration.from_pretrained(model_name, return_dict=True)
         else:
             raise ValueError("model_name should be either 't5-small' or 'facebook/bart-base'")
-        
         self.val_loss = []
         self.val_loss_epoch = []
         self.validation_step_outputs = []

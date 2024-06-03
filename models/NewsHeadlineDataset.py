@@ -1,8 +1,6 @@
-
 import pandas as pd
 from transformers import T5Tokenizer
 from torch.utils.data import Dataset
-
 
 
 class NewsHeadlineDataset(Dataset):
