@@ -22,9 +22,9 @@ class HeadlineGenerationModel(pl.LightningModule):
             self.model = BartForConditionalGeneration.from_pretrained(model_name, return_dict=True)
         else:
             raise ValueError("model_name should be either 't5-small' or 'facebook/bart-base'")
-        self.val_loss = []
-        self.val_loss_epoch = []
-        self.validation_step_outputs = []
+        self.val_loss: list = []
+        self.val_loss_epoch: list = []
+        self.validation_step_outputs: list = []
 
     def forward(
         self,

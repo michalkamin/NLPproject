@@ -8,7 +8,7 @@ from transformers import (
     BartTokenizer
 )
 from evaluation.generate_headline import generate_headline
-from evaluate import load
+import evaluate.load as load
 
 rouge = load("rouge")
 
