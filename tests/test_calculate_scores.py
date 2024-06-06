@@ -12,7 +12,6 @@ class TestCalculateScores(unittest.TestCase):
     Unit tests for the calculate_scores_df
     and calculate_scores_df_tuned functions.
     """
-    
     tokenizer_t5: T5Tokenizer
     model_t5: T5ForConditionalGeneration
     trained_model_t5: T5ForConditionalGeneration

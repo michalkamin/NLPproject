@@ -2,7 +2,7 @@ import unittest
 from evaluation.get_topn_words import get_topn_words
 
 
-class TestUtils(unittest.TestCase):
+class TestGetTopNWords(unittest.TestCase):
     """
     Unit tests for utility functions.
     """
