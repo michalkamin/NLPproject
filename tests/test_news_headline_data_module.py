@@ -2,7 +2,7 @@ import unittest
 import pandas as pd
 from transformers import T5Tokenizer
 from torch.utils.data import DataLoader
-from typing import Optional
+from typing import Optional, Dict, Any
 from models.NewsHeadlineDataModule import NewsHeadlineDataModule
 
 
@@ -62,9 +62,10 @@ class TestNewsHeadlineDataModule(unittest.TestCase):
         self.data_module.setup()
         train_loader: DataLoader = self.data_module.train_dataloader()
 
-        batch: Optional[dict] = next(iter(train_loader), None)
+        batch: Optional[Dict[str, Any]] = next(iter(train_loader), None)
         self.assertIsNotNone(batch)
-        self.assertEqual(len(batch["article_input_ids"]), 2)
+        if batch is not None:
+            self.assertEqual(len(batch["article_input_ids"]), 2)
 
     def test_val_dataloader(self) -> None:
         """
@@ -73,9 +74,10 @@ class TestNewsHeadlineDataModule(unittest.TestCase):
         self.data_module.setup()
         val_loader: DataLoader = self.data_module.val_dataloader()
 
-        batch: Optional[dict] = next(iter(val_loader), None)
+        batch: Optional[Dict[str, Any]] = next(iter(val_loader), None)
         self.assertIsNotNone(batch)
-        self.assertEqual(len(batch["article_input_ids"]), 2)
+        if batch is not None:
+            self.assertEqual(len(batch["article_input_ids"]), 2)
 
     def test_test_dataloader(self) -> None:
         """
@@ -84,9 +86,10 @@ class TestNewsHeadlineDataModule(unittest.TestCase):
         self.data_module.setup()
         test_loader: DataLoader = self.data_module.test_dataloader()
 
-        batch: Optional[dict] = next(iter(test_loader), None)
+        batch: Optional[Dict[str, Any]] = next(iter(test_loader), None)
         self.assertIsNotNone(batch)
-        self.assertEqual(len(batch["article_input_ids"]), 2)
+        if batch is not None:
+            self.assertEqual(len(batch["article_input_ids"]), 2)
 
 
 if __name__ == '__main__':

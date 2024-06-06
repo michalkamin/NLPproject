@@ -107,7 +107,8 @@ def calculate_scores_df(
         verbose (bool, optional): Whether to print progress messages. Defaults to True.
 
     Returns:
-        pd.DataFrame: DataFrame containing original headlines, generated headlines, and their BLEU and ROUGE scores.
+        pd.DataFrame: DataFrame containing original headlines,
+        generated headlines, and their BLEU and ROUGE scores.
     """
     results = []
 

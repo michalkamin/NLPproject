@@ -5,3 +5,18 @@ Description of the project: Fine-tuning T5 and BART models on the task of headli
 Used datasets:
 - https://www.kaggle.com/datasets/pariza/bbc-news-summary
 - https://www.kaggle.com/datasets/asad1m9a9h6mood/news-articles 
+
+Check the project with flake8:
+```bash
+flake8 NLPproject
+```
+
+Check the project with mypy:
+```bash
+mypy NLPproject
+```
+
+Run the unit tests (inside the project directory):
+```bash
+python -m unittest discover tests
+```
