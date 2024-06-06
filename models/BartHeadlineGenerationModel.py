@@ -7,12 +7,18 @@ class BartHeadlineGenerationModel(pl.LightningModule):
 
     def __init__(self):
         super().__init__()
-        self.model = BartForConditionalGeneration.from_pretrained("facebook/bart-base", return_dict=True)
+        self.model = BartForConditionalGeneration.from_pretrained(
+            "facebook/bart-base", return_dict=True
+        )
         self.val_loss = []
         self.val_loss_epoch = []
         self.validation_step_outputs = []
 
-    def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
+    def forward(self,
+                input_ids,
+                attention_mask,
+                decoder_attention_mask,
+                labels=None):
 
         output = self.model(
             input_ids,
@@ -32,7 +38,7 @@ class BartHeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("train_loss", loss, prog_bar=True, logger=True)
@@ -48,7 +54,7 @@ class BartHeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("val_loss", loss, prog_bar=True, logger=True)
@@ -70,7 +76,7 @@ class BartHeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("test_loss", loss, prog_bar=True, logger=True)

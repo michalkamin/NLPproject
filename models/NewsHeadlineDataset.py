@@ -63,20 +63,22 @@ class NewsHeadlineDataset(Dataset):
 
         article = data_row["Article"]
 
-        article_encoding = self.tokenizer(article,
-                                          max_length=self.article_max_token_len,
-                                          padding="max_length",
-                                          truncation=True,
-                                          return_attention_mask=True,
-                                          add_special_tokens=True,
-                                          return_tensors="pt")
+        article_encoding = self.tokenizer(
+            article,
+            max_length=self.article_max_token_len,
+            padding="max_length",
+            truncation=True,
+            return_attention_mask=True,
+            add_special_tokens=True,
+            return_tensors="pt")
 
-        headline_encoding = self.tokenizer(data_row["Headline"],
-                                           max_length=self.headline_max_token_len,
-                                           padding="max_length", truncation=True,
-                                           return_attention_mask=True,
-                                           add_special_tokens=True,
-                                           return_tensors="pt")
+        headline_encoding = self.tokenizer(
+            data_row["Headline"],
+            max_length=self.headline_max_token_len,
+            padding="max_length", truncation=True,
+            return_attention_mask=True,
+            add_special_tokens=True,
+            return_tensors="pt")
 
         labels = headline_encoding["input_ids"]
         labels[labels == 0] = -100

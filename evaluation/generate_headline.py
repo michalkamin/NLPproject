@@ -9,12 +9,12 @@ def generate_headline(
     text: str,
     tokenizer: PreTrainedTokenizer,
     input_model: PreTrainedModel,
-    prompt: str = '',
+    prompt: str = "",
     min_length: int = 7,
     num_beams: int = 5,
     length_penalty: float = 1.0,
     max_new_tokens: int = 20,
-    force_words: Optional[List[str]] = None
+    force_words: Optional[List[str]] = None,
 ) -> str:
     """
     Generates a headline for the given text using a specified model and tokenizer.
@@ -38,6 +38,8 @@ def generate_headline(
         str: The generated headline as a string.
     """
 
+    input_model.to(device)
+
     text_encoding = tokenizer(
         prompt + text,
         max_length=512,
@@ -45,7 +47,7 @@ def generate_headline(
         truncation=True,
         return_attention_mask=True,
         add_special_tokens=True,
-        return_tensors="pt"
+        return_tensors="pt",
     )
 
     input_ids = text_encoding["input_ids"].to(device)
@@ -54,9 +56,9 @@ def generate_headline(
     if force_words:
         force_words = [str(word) for word in force_words]
         force_words_ids = [
-            tokenizer(word, add_special_tokens=False)['input_ids']
+            tokenizer(word, add_special_tokens=False)["input_ids"]
             for word in force_words
-            ]
+        ]
     else:
         force_words_ids = None
 
@@ -67,12 +69,16 @@ def generate_headline(
         num_beams=num_beams,
         early_stopping=True,
         length_penalty=length_penalty,
-        force_words_ids=force_words_ids
+        force_words_ids=force_words_ids,
     )
 
     preds = [
-        tokenizer.decode(gen_id, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+        tokenizer.decode(
+            gen_id,
+            skip_special_tokens=True,
+            clean_up_tokenization_spaces=True
+        )
         for gen_id in generated_ids
-            ]
+    ]
 
     return "".join(preds)

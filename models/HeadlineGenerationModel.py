@@ -1,7 +1,10 @@
 import pytorch_lightning as pl
 import torch
 from torch.optim import AdamW
-from transformers import T5ForConditionalGeneration, BartForConditionalGeneration
+from transformers import (
+    T5ForConditionalGeneration,
+    BartForConditionalGeneration
+    )
 from transformers.modeling_outputs import Seq2SeqLMOutput
 from typing import Dict, Tuple
 
@@ -11,17 +14,24 @@ class HeadlineGenerationModel(pl.LightningModule):
     A PyTorch Lightning Module for headline generation using T5 or BART models.
 
     Args:
-        model_name (str): The name of the model to use ("t5-small" or "facebook/bart-base").
+        model_name (str): The name of the model to use
+        ("t5-small" or "facebook/bart-base").
     """
 
     def __init__(self, model_name: str = "t5-small") -> None:
         super().__init__()
         if model_name.startswith("t5"):
-            self.model = T5ForConditionalGeneration.from_pretrained(model_name, return_dict=True)
+            self.model = T5ForConditionalGeneration.from_pretrained(
+                model_name, return_dict=True
+            )
         elif model_name.startswith("facebook/bart"):
-            self.model = BartForConditionalGeneration.from_pretrained(model_name, return_dict=True)
+            self.model = BartForConditionalGeneration.from_pretrained(
+                model_name, return_dict=True
+            )
         else:
-            raise ValueError("model_name should be either 't5-small' or 'facebook/bart-base'")
+            raise ValueError(
+                "model_name should be 't5-small' or 'facebook/bart-base'"
+            )
         self.val_loss: list = []
         self.val_loss_epoch: list = []
         self.validation_step_outputs: list = []
@@ -31,7 +41,7 @@ class HeadlineGenerationModel(pl.LightningModule):
         input_ids: torch.Tensor,
         attention_mask: torch.Tensor,
         labels: torch.Tensor,
-        decoder_attention_mask: torch.Tensor
+        decoder_attention_mask: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Forward pass for the model.
@@ -53,7 +63,9 @@ class HeadlineGenerationModel(pl.LightningModule):
         )
         return output.loss, output.logits
 
-    def training_step(self, batch: Dict[str, torch.Tensor], batch_idx: int) -> torch.Tensor:
+    def training_step(
+        self, batch: Dict[str, torch.Tensor], batch_idx: int
+    ) -> torch.Tensor:
         """
         Training step for the model.
 
@@ -73,13 +85,15 @@ class HeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("train_loss", loss, prog_bar=True, logger=True)
         return loss
 
-    def validation_step(self, batch: Dict[str, torch.Tensor], batch_idx: int) -> torch.Tensor:
+    def validation_step(
+        self, batch: Dict[str, torch.Tensor], batch_idx: int
+    ) -> torch.Tensor:
         """
         Validation step for the model.
 
@@ -99,7 +113,7 @@ class HeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("val_loss", loss, prog_bar=True, logger=True)
@@ -114,7 +128,9 @@ class HeadlineGenerationModel(pl.LightningModule):
         self.log("validation_epoch_average", epoch_average)
         self.validation_step_outputs.clear()
 
-    def test_step(self, batch: Dict[str, torch.Tensor], batch_idx: int) -> torch.Tensor:
+    def test_step(self,
+                  batch: Dict[str, torch.Tensor],
+                  batch_idx: int) -> torch.Tensor:
         """
         Test step for the model.
 
@@ -134,7 +150,7 @@ class HeadlineGenerationModel(pl.LightningModule):
             input_ids=input_ids,
             attention_mask=attention_mask,
             decoder_attention_mask=labels_attention_mask,
-            labels=labels
+            labels=labels,
         )
 
         self.log("test_loss", loss, prog_bar=True, logger=True)
