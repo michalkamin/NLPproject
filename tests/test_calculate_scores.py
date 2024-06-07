@@ -23,15 +23,26 @@ class TestCalculateScores(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         """
-        Set up the tokenizer and model for T5 and BART before any tests are run.
+        Set up the tokenizer and model for T5
+        and BART before any tests are run.
         """
         cls.tokenizer_t5 = T5Tokenizer.from_pretrained('t5-small')
         cls.model_t5 = T5ForConditionalGeneration.from_pretrained('t5-small')
-        cls.trained_model_t5 = T5ForConditionalGeneration.from_pretrained('t5-small')
+        cls.trained_model_t5 = T5ForConditionalGeneration.from_pretrained(
+            't5-small'
+        )
 
-        cls.tokenizer_bart = BartTokenizer.from_pretrained('facebook/bart-base')
-        cls.model_bart = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
-        cls.trained_model_bart = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
+        cls.tokenizer_bart = BartTokenizer.from_pretrained(
+            'facebook/bart-base'
+        )
+
+        cls.model_bart = BartForConditionalGeneration.from_pretrained(
+            'facebook/bart-base'
+        )
+
+        cls.trained_model_bart = BartForConditionalGeneration.from_pretrained(
+            'facebook/bart-base'
+        )
 
         cls.df = pd.DataFrame({
             'Article': ["The quick brown fox jumps over the lazy dog."],

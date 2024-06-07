@@ -23,13 +23,21 @@ class TestGenerateHeadline(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         """
-        Set up the tokenizer and model for T5 and BART before any tests are run.
+        Set up the tokenizer and model for T5
+        and BART before any tests are run.
         """
         cls.tokenizer_t5 = T5Tokenizer.from_pretrained('t5-small')
-        cls.model_t5 = T5ForConditionalGeneration.from_pretrained('t5-small').to(device)
+        cls.model_t5 = T5ForConditionalGeneration.from_pretrained(
+            't5-small'
+        ).to(device)
 
-        cls.tokenizer_bart = BartTokenizer.from_pretrained('facebook/bart-base')
-        cls.model_bart = BartForConditionalGeneration.from_pretrained('facebook/bart-base').to(device)
+        cls.tokenizer_bart = BartTokenizer.from_pretrained(
+            'facebook/bart-base'
+        )
+
+        cls.model_bart = BartForConditionalGeneration.from_pretrained(
+            'facebook/bart-base'
+        ).to(device)
 
     def test_generate_headline_t5(self) -> None:
         """

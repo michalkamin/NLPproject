@@ -17,18 +17,28 @@ def generate_headline(
     force_words: Optional[List[str]] = None,
 ) -> str:
     """
-    Generates a headline for the given text using a specified model and tokenizer.
-    Optionally enforces the inclusion of specified words in the generated headline.
+    Generates a headline for the given text
+    using a specified model and tokenizer.
+    Optionally enforces the inclusion of specified words
+    in the generated headline.
 
     Args:
-        text (str): The input text for which the headline is to be generated.
-        tokenizer (PreTrainedTokenizer): The tokenizer associated with the model.
-        input_model (PreTrainedModel): The pre-trained model used for generation.
-        prompt (str, optional): A prompt to prepend to the text. Defaults to ''.
-        min_length (int, optional): Minimum length of the generated headline. Defaults to 7.
-        num_beams (int, optional): Number of beams for beam search. Defaults to 5.
-        length_penalty (float, optional): Length penalty for beam search. Defaults to 1.0.
-        max_new_tokens (int, optional): Maximum number of new tokens to generate.
+        text (str):
+            The input text for which the headline is to be generated.
+        tokenizer (PreTrainedTokenizer):
+            The tokenizer associated with the model.
+        input_model (PreTrainedModel):
+            The pre-trained model used for generation.
+        prompt (str, optional):
+            A prompt to prepend to the text. Defaults to ''.
+        min_length (int, optional):
+            Minimum length of the generated headline. Defaults to 7.
+        num_beams (int, optional):
+            Number of beams for beam search. Defaults to 5.
+        length_penalty (float, optional):
+            Length penalty for beam search. Defaults to 1.0.
+        max_new_tokens (int, optional):
+            Maximum number of new tokens to generate.
         Defaults to 20.
         force_words (Optional[List[str]], optional): A list of words that must
         be included in the generated headline.

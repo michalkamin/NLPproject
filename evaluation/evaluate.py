@@ -54,21 +54,43 @@ def calculate_scores_df_tuned(
         else:
             references = [original_headline_tokens]
 
-        finetuned_t5_headline = generate_headline(text, tokenizer_t5, trained_t5)
-        finetuned_bart_headline = generate_headline(text, tokenizer_bart, trained_bart)
+        finetuned_t5_headline = generate_headline(
+            text, tokenizer_t5, trained_t5
+        )
+        finetuned_bart_headline = generate_headline(
+            text, tokenizer_bart, trained_bart
+        )
 
-        finetuned_t5_headline_tokens = word_tokenize(finetuned_t5_headline.lower())
-        finetuned_bart_headline_tokens = word_tokenize(finetuned_bart_headline.lower())
+        finetuned_t5_headline_tokens = word_tokenize(
+            finetuned_t5_headline.lower()
+        )
+        finetuned_bart_headline_tokens = word_tokenize(
+            finetuned_bart_headline.lower()
+        )
 
         chencherry = SmoothingFunction()
 
-        bleu_finetuned_t5 = sentence_bleu(references, finetuned_t5_headline_tokens, smoothing_function=chencherry.method1)
-        bleu_finetuned_bart = sentence_bleu(references, finetuned_bart_headline_tokens, smoothing_function=chencherry.method1)
+        bleu_finetuned_t5 = sentence_bleu(
+            references,
+            finetuned_t5_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
+        bleu_finetuned_bart = sentence_bleu(
+            references,
+            finetuned_bart_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
 
-        scores_finetuned_t5 = rouge.compute(predictions=[finetuned_t5_headline], references=[original_headline])
+        scores_finetuned_t5 = rouge.compute(
+            predictions=[finetuned_t5_headline],
+            references=[original_headline]
+        )
         rouge_finetuned_t5 = scores_finetuned_t5['rouge1']
 
-        scores_finetuned_bart = rouge.compute(predictions=[finetuned_bart_headline], references=[original_headline])
+        scores_finetuned_bart = rouge.compute(
+            predictions=[finetuned_bart_headline],
+            references=[original_headline]
+        )
         rouge_finetuned_bart = scores_finetuned_bart['rouge1']
 
         results.append({
@@ -99,12 +121,17 @@ def calculate_scores_df(
     verbose: bool = True
 ) -> pd.DataFrame:
     """
-    Calculate BLEU and ROUGE scores for generated headlines compared to original headlines.
+    Calculate BLEU and ROUGE scores for generated headlines
+    compared to original headlines.
 
     Args:
-        df (pd.DataFrame): DataFrame containing articles and their corresponding original headlines.
-        include_summary (bool, optional): Whether to include summary in the references for BLEU calculation. Defaults to False.
-        verbose (bool, optional): Whether to print progress messages. Defaults to True.
+        df (pd.DataFrame): DataFrame containing articles
+        and their corresponding original headlines.
+        include_summary (bool, optional):
+            Whether to include summary in the references for BLEU calculation.
+            Defaults to False.
+        verbose (bool, optional):
+            Whether to print progress messages. Defaults to True.
 
     Returns:
         pd.DataFrame: DataFrame containing original headlines,
@@ -143,40 +170,64 @@ def calculate_scores_df(
                                                      pretrained_bart,
                                                      prompt="summarize: ")
 
-        finetuned_t5_headline_tokens = word_tokenize(finetuned_t5_headline.lower())
-        pretrained_t5_headline_tokens = word_tokenize(pretrained_t5_headline.lower())
-        finetuned_bart_headline_tokens = word_tokenize(finetuned_bart_headline.lower())
-        pretrained_bart_headline_tokens = word_tokenize(pretrained_bart_headline.lower())
+        finetuned_t5_headline_tokens = word_tokenize(
+            finetuned_t5_headline.lower()
+        )
+        pretrained_t5_headline_tokens = word_tokenize(
+            pretrained_t5_headline.lower()
+        )
+        finetuned_bart_headline_tokens = word_tokenize(
+            finetuned_bart_headline.lower()
+        )
+        pretrained_bart_headline_tokens = word_tokenize(
+            pretrained_bart_headline.lower()
+        )
 
         chencherry = SmoothingFunction()
 
-        bleu_finetuned_t5 = sentence_bleu(references,
-                                          finetuned_t5_headline_tokens,
-                                          smoothing_function=chencherry.method1)
-        bleu_pretrained_t5 = sentence_bleu(references,
-                                           pretrained_t5_headline_tokens,
-                                           smoothing_function=chencherry.method1)
-        bleu_finetuned_bart = sentence_bleu(references,
-                                            finetuned_bart_headline_tokens,
-                                            smoothing_function=chencherry.method1)
-        bleu_pretrained_bart = sentence_bleu(references,
-                                             pretrained_bart_headline_tokens,
-                                             smoothing_function=chencherry.method1)
+        bleu_finetuned_t5 = sentence_bleu(
+            references,
+            finetuned_t5_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
+        bleu_pretrained_t5 = sentence_bleu(
+            references,
+            pretrained_t5_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
+        bleu_finetuned_bart = sentence_bleu(
+            references,
+            finetuned_bart_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
+        bleu_pretrained_bart = sentence_bleu(
+            references,
+            pretrained_bart_headline_tokens,
+            smoothing_function=chencherry.method1
+        )
 
-        scores_finetuned_t5 = rouge.compute(predictions=[finetuned_t5_headline],
-                                            references=[original_headline])
+        scores_finetuned_t5 = rouge.compute(
+            predictions=[finetuned_t5_headline],
+            references=[original_headline]
+        )
         rouge_finetuned_t5 = scores_finetuned_t5['rouge1']
 
-        scores_pretrained_t5 = rouge.compute(predictions=[pretrained_t5_headline],
-                                             references=[original_headline])
+        scores_pretrained_t5 = rouge.compute(
+            predictions=[pretrained_t5_headline],
+            references=[original_headline]
+        )
         rouge_pretrained_t5 = scores_pretrained_t5['rouge1']
 
-        scores_finetuned_bart = rouge.compute(predictions=[finetuned_bart_headline],
-                                              references=[original_headline])
+        scores_finetuned_bart = rouge.compute(
+            predictions=[finetuned_bart_headline],
+            references=[original_headline]
+        )
         rouge_finetuned_bart = scores_finetuned_bart['rouge1']
 
-        scores_pretrained_bart = rouge.compute(predictions=[pretrained_bart_headline],
-                                               references=[original_headline])
+        scores_pretrained_bart = rouge.compute(
+            predictions=[pretrained_bart_headline],
+            references=[original_headline]
+        )
         rouge_pretrained_bart = scores_pretrained_bart['rouge1']
 
         results.append({

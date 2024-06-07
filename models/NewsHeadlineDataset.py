@@ -5,14 +5,20 @@ from torch.utils.data import Dataset
 
 class NewsHeadlineDataset(Dataset):
     """
-    A custom dataset class for handling news articles and their corresponding headlines,
+    A custom dataset class for handling news articles
+    and their corresponding headlines,
     designed to work with the T5 tokenizer and PyTorch's Dataset class.
 
     Args:
-        tokenizer (T5Tokenizer): The tokenizer used to preprocess the articles and headlines.
-        data (pd.DataFrame): The dataframe containing the news articles and their corresponding headlines.
-        article_max_token_len (int): The maximum length of tokens for the article input.
-        headline_max_token_len (int): The maximum length of tokens for the headline output.
+        tokenizer (T5Tokenizer):
+            The tokenizer used to preprocess the articles and headlines.
+        data (pd.DataFrame):
+            The dataframe containing the news articles
+            and their corresponding headlines.
+        article_max_token_len (int):
+            The maximum length of tokens for the article input.
+        headline_max_token_len (int):
+            The maximum length of tokens for the headline output.
     """
 
     def __init__(self,
@@ -21,14 +27,22 @@ class NewsHeadlineDataset(Dataset):
                  article_max_token_len: int = 512,
                  headline_max_token_len: int = 128):
         """
-        Initializes the NewsHeadlineDataset with the provided data and tokenizer.
+        Initializes the NewsHeadlineDataset
+        with the provided data and tokenizer.
 
         Args:
         -----------
-            data (pd.DataFrame): The dataframe containing the news articles and their corresponding headlines.
-            tokenizer (T5Tokenizer): The tokenizer used to preprocess the articles and headlines.
-            article_max_token_len (int, optional): The maximum length of tokens for the article input (default is 512).
-            headline_max_token_len (int, optional): The maximum length of tokens for the headline output (default is 128).
+            data (pd.DataFrame):
+                The dataframe containing the news articles
+                and their corresponding headlines.
+            tokenizer (T5Tokenizer):
+                The tokenizer used to preprocess the articles and headlines.
+            article_max_token_len (int, optional):
+                The maximum length of tokens
+                for the article input (default is 512).
+            headline_max_token_len (int, optional):
+                The maximum length of tokens
+                for the headline output (default is 128).
         """
         self.tokenizer = tokenizer
         self.data = data
@@ -44,19 +58,22 @@ class NewsHeadlineDataset(Dataset):
 
     def __getitem__(self, index: int) -> dict:
         """
-        Returns a dictionary containing the tokenized article and headline for a given index.
+        Returns a dictionary containing the tokenized article
+        and headline for a given index.
 
         Args:
             index (int): The index of the sample to retrieve.
 
         Returns:
             dict
-                A dictionary containing the tokenized article and headline with the following keys:
+                A dictionary containing the tokenized article
+                and headline with the following keys:
                 - article: The original article text.
                 - headline: The original headline text.
                 - article_input_ids: The token IDs of the article.
                 - article_attention_mask: The attention mask for the article.
-                - labels: The token IDs of the headline with padding tokens replaced by -100.
+                - labels: The token IDs of the headline
+                  with padding tokens replaced by -100.
                 - labels_attention_mask: The attention mask for the headline.
         """
         data_row = self.data.iloc[index]
@@ -87,7 +104,11 @@ class NewsHeadlineDataset(Dataset):
             article=article,
             headline=data_row["Headline"],
             article_input_ids=article_encoding["input_ids"].flatten(),
-            article_attention_mask=article_encoding["attention_mask"].flatten(),
+            article_attention_mask=article_encoding[
+                "attention_mask"
+            ].flatten(),
             labels=labels.flatten(),
-            labels_attention_mask=headline_encoding["attention_mask"].flatten()
+            labels_attention_mask=headline_encoding[
+                "attention_mask"
+            ].flatten()
         )

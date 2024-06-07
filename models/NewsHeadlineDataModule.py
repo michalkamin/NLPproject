@@ -18,9 +18,11 @@ class NewsHeadlineDataModule(pl.LightningDataModule):
         tokenizer (T5Tokenizer): The tokenizer used for tokenizing the text.
         batch_size (int, optional): Batch size for the dataloaders.
         Defaults to 8.
-        article_max_token_len (int, optional): Maximum token length for articles.
+        article_max_token_len (int, optional):
+            Maximum token length for articles.
         Defaults to 512.
-        headline_max_token_len (int, optional): Maximum token length for headlines.
+        headline_max_token_len (int, optional):
+            Maximum token length for headlines.
         Defaults to 128.
     """
 
@@ -49,7 +51,8 @@ class NewsHeadlineDataModule(pl.LightningDataModule):
         Sets up the datasets for training, validation, and testing.
 
         Args:
-            stage (Optional[str], optional): The stage for which the setup is being done.
+            stage (Optional[str], optional):
+                The stage for which the setup is being done.
             Defaults to None.
         """
         self.train_dataset = NewsHeadlineDataset(
